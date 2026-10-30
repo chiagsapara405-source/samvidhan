@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Samvidhan — Phase 1 preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #252b32;
+        background: #edeae3;
+        font-synthesis: none;
+      }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; margin: 0; padding: 28px 14px; display: grid; place-items: center; }
+      .device { width: min(100%, 430px); min-height: min(860px, calc(100vh - 56px)); overflow: hidden; border: 1px solid #d8d5ce; border-radius: 28px; background: #faf9f6; box-shadow: 0 24px 72px #20252d24; }
+      .preview-label { padding: 9px 20px; border-bottom: 1px solid #e6e2d8; color: #777970; text-align: center; font-size: 10px; letter-spacing: 1.25px; text-transform: uppercase; }
+      main { padding: 30px 24px 26px; }
+      .brand { margin-bottom: 24px; }
+      .wordmark { font: 700 36px/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.8px; }
+      .kicker { margin-top: 5px; color: #666a6b; font-size: 10px; font-weight: 700; letter-spacing: 2px; }
+      .intro { margin: 0 0 22px; max-width: 340px; color: #666a6b; font-size: 16px; line-height: 1.55; }
+      .feature { margin-bottom: 25px; padding: 22px; border-radius: 20px; background: #252b32; color: white; cursor: pointer; }
+      .feature-label { color: #e4b68b; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; }
+      .feature-title { margin: 14px 0 20px; font: 25px/1.32 Georgia, "Times New Roman", serif; }
+      .feature-action { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 14px; }
+      .feature-hint { margin-top: 5px; color: #d0d0d0; font-size: 12px; }
+      h2 { margin: 0; font-size: 19px; line-height: 1.4; }
+      .section-note { margin: 4px 0 13px; color: #666a6b; font-size: 12px; }
+      .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .section-card { min-height: 112px; padding: 14px; border: 1px solid #e6e2d8; border-radius: 15px; background: #f3f1eb; cursor: pointer; }
+      .section-card.disabled { opacity: .62; cursor: default; }
+      .section-number { color: #a05a27; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+      .section-name { margin-top: 8px; font-weight: 700; font-size: 15px; }
+      .section-meta { margin-top: 5px; color: #666a6b; font-size: 11px; }
+      .disclaimer { margin: 20px 0 0; color: #666a6b; font-size: 11px; line-height: 1.5; }
+      .topbar { display: flex; align-items: center; gap: 12px; min-height: 46px; margin-bottom: 17px; }
+      button { font: inherit; color: inherit; }
+      .back { width: 44px; height: 44px; border: 1px solid #e6e2d8; border-radius: 14px; background: transparent; font-size: 25px; cursor: pointer; }
+      .top-title { font-size: 19px; font-weight: 700; }
+      .muted { color: #666a6b; }
+      .part-card, .article-card, .text-card { border: 1px solid #e6e2d8; border-radius: 16px; background: #f3f1eb; }
+      .part-card { margin-top: 22px; padding: 18px; cursor: pointer; }
+      .eyebrow { color: #a05a27; font-size: 10px; font-weight: 700; letter-spacing: 1.3px; }
+      .part-name { margin: 13px 0 4px; font: 600 22px/1.3 Georgia, "Times New Roman", serif; }
+      .article-list { display: grid; gap: 10px; margin-top: 23px; }
+      .article-card { min-height: 76px; padding: 13px; display: flex; align-items: center; gap: 13px; cursor: pointer; }
+      .article-number { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 13px; background: #eadfd3; display: grid; place-items: center; color: #a05a27; font-weight: 700; }
+      .article-name { flex: 1; font-size: 13px; line-height: 1.45; font-weight: 600; }
+      .chevron { color: #666a6b; font-size: 23px; }
+      .detail-title { margin: 8px 0 20px; font: 600 28px/1.3 Georgia, "Times New Roman", serif; }
+      .bookmark { padding: 10px 14px; border: 1px solid #e6e2d8; border-radius: 13px; background: transparent; }
+      .bookmark span { color: #a05a27; font-size: 18px; margin-right: 7px; }
+      .block-title { margin: 23px 0 9px; font-weight: 700; font-size: 15px; }
+      .text-card { padding: 16px; font-size: 14px; line-height: 1.65; }
+      .progress { margin-top: 20px; color: #666a6b; font-size: 12px; }
+      .nav { display: flex; gap: 10px; margin-top: 14px; }
+      .nav button, .home-button { min-height: 48px; flex: 1; border: 1px solid #e6e2d8; border-radius: 13px; background: transparent; }
+      .nav .next { border-color: #252b32; background: #252b32; color: white; }
+      .nav button:disabled { opacity: .4; }
+      .home-button { flex: initial; margin-top: 18px; padding: 0 18px; background: #252b32; color: white; cursor: pointer; }
+      @media (max-width: 480px) { body { padding: 0; display: block; background: #faf9f6; } .device { min-height: 100vh; width: 100%; border: 0; border-radius: 0; box-shadow: none; } main { padding-top: 26px; } }
+    </style>
+  </head>
+  <body>
+    <div class="device">
+      <div class="preview-label">Phase 1 UI preview · browser mock</div>
+      <main id="screen"></main>
+    </div>
+    <script>
+      const articles = [
+        'Name and territory of the Union',
+        'Admission or establishment of new States',
+        'Formation of new States and alteration of areas, boundaries or names of existing States',
+        'Laws made under articles 2 and 3',
+      ];
+      const placeholder = '[Official constitutional text to be added from an authoritative source]';
+      const screen = document.getElementById('screen');
+      const history = [];
+      let route = { name: 'home' };
+      function go(next, replace = false) { if (!replace) history.push(route); route = next; render(); }
+      function back() { route = history.pop() || { name: 'home' }; render(); }
+      function header(title) { return `<div class="topbar"><button class="back" aria-label="Go back" onclick="back()">‹</button><div class="top-title">${title}</div></div>`; }
+      function render() {
+        if (route.name === 'home') {
+          screen.innerHTML = `<div class="brand"><div class="wordmark">Samvidhan</div><div class="kicker">CONSTITUTION OF INDIA</div></div><p class="intro">Explore the Constitution of India, part by part and article by article.</p><section class="feature" onclick="go({name:'parts'})"><div class="feature-label">THE CONSTITUTION OF INDIA</div><div class="feature-title">A closer look at the foundations of the Republic.</div><div class="feature-action">Read the Constitution <span>↗</span></div><div class="feature-hint">Explore Parts and Articles</div></section><h2>Explore Constitution</h2><p class="section-note">A reference, one section at a time</p><div class="grid"><div class="section-card" onclick="go({name:'parts'})"><div class="section-number">01</div><div class="section-name">Parts</div><div class="section-meta">Explore now →</div></div>${['Articles','Schedules','Amendments'].map((x,i)=>`<div class="section-card disabled"><div class="section-number">0${i+2}</div><div class="section-name">${x}</div><div class="section-meta">Coming soon</div></div>`).join('')}</div><p class="disclaimer">Independent educational/reference application. Not affiliated with the Government of India.</p>`;
+        } else if (route.name === 'parts') {
+          screen.innerHTML = `${header('Constitution')}<p class="muted">Explore the Constitution part by part.</p><div class="part-card" onclick="go({name:'part'})"><div class="eyebrow">PART I</div><div class="part-name">The Union and Its Territory</div><div class="muted">Articles 1-4 <span style="float:right">›</span></div></div><p class="muted" style="font-size:12px;margin-top:20px">More Parts will be added as this reference library grows.</p>`;
+        } else if (route.name === 'part') {
+          screen.innerHTML = `${header('Part I')}<div class="detail-title" style="margin-bottom:4px">The Union and Its Territory</div><div class="muted">Articles 1-4</div><div class="article-list">${articles.map((title,i)=>`<div class="article-card" onclick="go({name:'article',index:${i}})"><div class="article-number">${i+1}</div><div class="article-name">${title}</div><div class="chevron">›</div></div>`).join('')}</div>`;
+        } else if (route.name === 'article') {
+          const i = route.index;
+          screen.innerHTML = `${header(`Article ${i+1}`)}<div class="detail-title">${articles[i]}</div><button class="bookmark" disabled><span>☆</span>Bookmark</button><div class="block-title">Official Text</div><div class="text-card">${placeholder}</div><div class="block-title">Part</div><div class="muted">Part I — The Union and Its Territory</div><div class="progress">Article ${i+1} of 4</div><div class="nav"><button ${i===0?'disabled':''} onclick="go({name:'article',index:${i-1}},true)">← Previous</button><button class="next" ${i===3?'disabled':''} onclick="go({name:'article',index:${i+1}},true)">Next →</button></div>`;
+        } else {
+          screen.innerHTML = `${header('Content not found')}<p class="muted">The requested constitutional content could not be found.</p><button class="home-button" onclick="go({name:'home'},true)">Go Home</button>`;
+        }
+      }
+      render();
+    </script>
+  </body>
+</html>
