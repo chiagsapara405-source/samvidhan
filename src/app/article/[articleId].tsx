@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
   controlRow: { flexDirection: 'row', gap: 8 },
   controlButton: {
     minWidth: 46,
-    minHeight: 40,
+    minHeight: 44,
     paddingHorizontal: 13,
     borderWidth: 1,
     borderRadius: 12,
