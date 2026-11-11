@@ -43,7 +43,8 @@
     "typecheck": "tsc --noEmit",
     "validate:data": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" README.md app.json package.json eslint.config.js .prettierrc.json",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" README.md app.json package.json eslint.config.js .prettierrc.json"
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" README.md app.json package.json eslint.config.js .prettierrc.json",
+    "test:search": "node --experimental-strip-types --test tests/part-number.test.mjs"
   },
   "private": true
 }
