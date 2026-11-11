@@ -1,5 +1,6 @@
 import type { Article, ConstitutionPart } from '@/types/constitution';
 import { constitutionParts } from '@/data/constitution';
+import { parsePartNumber } from '@/data/part-number';
 
 export type SearchStatus = 'all' | Article['status'];
 
@@ -25,13 +26,6 @@ function parseArticleNumber(query: string) {
   return /^[0-9]+[a-z]?$/i.test(number) ? compact(number) : undefined;
 }
 
-function parsePartNumber(query: string) {
-  const match = query.match(/^part\s+([ivxlcdm]+|\d+)$/i);
-  if (!match) return undefined;
-  const value = match[1].toLocaleLowerCase();
-  const romanNumbers: Record<string, string> = { i: '1', ii: '2', iii: '3' };
-  return romanNumbers[value] ?? value;
-}
 
 function findExcerpt(article: Article, query: string) {
   const needle = normalize(query);
